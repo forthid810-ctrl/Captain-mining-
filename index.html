@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaMine - Smart Crypto Mining Platform</title>
+    <title>Captain Mining - Smart Crypto Mining</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -44,7 +44,6 @@
             padding: 0 20px;
         }
 
-        /* Header Styles */
         header {
             background: rgba(26, 26, 46, 0.9);
             backdrop-filter: blur(10px);
@@ -161,7 +160,6 @@
             box-shadow: 0 5px 15px rgba(6, 214, 160, 0.4);
         }
 
-        /* Page Sections */
         .page {
             display: none;
             padding: 50px 0;
@@ -172,7 +170,6 @@
             display: block;
         }
 
-        /* Hero Section */
         .hero {
             padding: 100px 0;
             text-align: center;
@@ -236,7 +233,6 @@
             color: var(--gray);
         }
 
-        /* Auth Forms */
         .auth-container {
             display: flex;
             justify-content: center;
@@ -317,7 +313,6 @@
             cursor: pointer;
         }
 
-        /* Dashboard */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -404,7 +399,6 @@
             color: var(--primary);
         }
 
-        /* Plans Section */
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -484,7 +478,6 @@
             font-weight: bold;
         }
 
-        /* Deposit Modal */
         .modal {
             display: none;
             position: fixed;
@@ -514,7 +507,7 @@
 
         .modal-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
@@ -585,7 +578,6 @@
             background: var(--primary-dark);
         }
 
-        /* Footer */
         footer {
             background: var(--darker);
             padding: 50px 0 20px;
@@ -665,7 +657,6 @@
             font-size: 14px;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 36px;
@@ -687,7 +678,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -695,7 +685,7 @@
                     <div class="logo-icon">
                         <i class="fas fa-cube"></i>
                     </div>
-                    <div>NovaMine</div>
+                    <div>Captain Mining</div>
                 </div>
                 <nav>
                     <ul>
@@ -720,12 +710,11 @@
         </div>
     </header>
 
-    <!-- Home Page -->
     <section id="home" class="page active">
         <div class="hero">
             <div class="container">
-                <h1>Earn <span>3% Monthly Returns</span> with Smart Crypto Mining</h1>
-                <p>NovaMine is a next-generation cloud mining platform designed for users who want steady and realistic profits without technical complexity.</p>
+                <h1>Earn <span>3-15% Monthly Returns</span> with Smart Crypto Mining</h1>
+                <p>Captain Mining is a next-generation cloud mining platform designed for users who want steady and realistic profits without technical complexity.</p>
                 <div class="cta-buttons">
                     <a href="#" class="btn btn-primary" onclick="showPage('signup')">Start Mining Now</a>
                     <a href="#" class="btn btn-outline" onclick="showPage('plans')">View Plans</a>
@@ -742,4 +731,468 @@
                     <div class="stat-item">
                         <div class="stat-value">50+</div>
                         <div class="stat-label">Countries</div>
-                    </di
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="signup" class="page">
+        <div class="auth-container">
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <div class="
+                        <auth-tab active" onclick="showAuthTab('signup')">Sign Up</div>
+<div class="auth-tab" onclick="showAuthTab('login')">Log In</div>
+</div>
+<form id="signupForm">
+<div class="form-group">
+<label for="signupUsername">Username</label>
+<input type="text" id="signupUsername" class="form-control" placeholder="Choose a username" required>
+</div>
+<div class="form-group">
+<label for="signupEmail">Email Address</label>
+<input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+</div>
+<div class="form-group">
+<label for="signupPassword">Password</label>
+<div class="password-container">
+<input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+<button type="button" class="toggle-password" onclick="togglePassword('signupPassword')">
+<i class="fas fa-eye"></i>
+</button>
+</div>
+</div>
+<div class="form-group">
+<label for="confirmPassword">Confirm Password</label>
+<div class="password-container">
+<input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+<button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+<i class="fas fa-eye"></i>
+</button>
+</div>
+</div>
+<button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+</form>
+</div>
+</div>
+</section>
+
+<section id="login" class="page">
+<div class="auth-container">
+<div class="auth-box">
+<div class="auth-tabs">
+<div class="auth-tab" onclick="showAuthTab('signup')">Sign Up</div>
+<div class="auth-tab active" onclick="showAuthTab('login')">Log In</div>
+</div>
+<form id="loginForm">
+<div class="form-group">
+<label for="loginEmail">Email or Username</label>
+<input type="text" id="loginEmail" class="form-control" placeholder="Enter your email or username" required>
+</div>
+<div class="form-group">
+<label for="loginPassword">Password</label>
+<div class="password-container">
+<input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+<button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+<i class="fas fa-eye"></i>
+</button>
+</div>
+</div>
+<button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+</form>
+</div>
+</div>
+</section>
+
+<section id="dashboard" class="page">
+<div class="container">
+<div class="dashboard-header">
+<h1>Dashboard</h1>
+<div class="user-info">
+<div class="user-avatar" id="dashboardAvatar">U</div>
+<div>
+<div id="dashboardName">User</div>
+<div style="font-size: 14px; color: var(--gray);" id="dashboardEmail">user@example.com</div>
+</div>
+</div>
+</div>
+
+<div class="stats-grid">
+<div class="stat-card">
+<h3>Total Balance</h3>
+<div class="value">$0.00</div>
+</div>
+<div class="stat-card">
+<h3>Active Investment</h3>
+<div class="value">$0.00</div>
+</div>
+<div class="stat-card">
+<h3>Total Profit</h3>
+<div class="value">$0.00</div>
+</div>
+<div class="stat-card">
+<h3>Daily Earnings</h3>
+<div class="value">$0.00</div>
+</div>
+</div>
+
+<div class="actions-grid">
+<div class="action-card" onclick="showPage('plans')">
+<div class="action-icon">
+<i class="fas fa-coins"></i>
+</div>
+<h3>Deposit</h3>
+<p>Add funds to your account</p>
+</div>
+<div class="action-card" onclick="showWithdrawalModal()">
+<div class="action-icon">
+<i class="fas fa-wallet"></i>
+</div>
+<h3>Withdraw</h3>
+<p>Withdraw your earnings</p>
+</div>
+<div class="action-card">
+<div class="action-icon">
+<i class="fas fa-history"></i>
+</div>
+<h3>Transaction History</h3>
+<p>View all transactions</p>
+</div>
+<div class="action-card">
+<div class="action-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<h3>Referral Program</h3>
+<p>Earn 5% commission</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="plans" class="page">
+<div class="container">
+<h1 style="text-align: center; margin-bottom: 10px;">Investment Plans</h1>
+<p style="text-align: center; color: var(--gray); margin-bottom: 40px;">Choose the perfect plan for your investment goals</p>
+
+<div class="plans-grid">
+<div class="plan-card">
+<div class="plan-header">
+<div class="plan-name">BASIC</div>
+<div class="plan-amount">$10 - $49</div>
+<div class="plan-daily">0.1% Daily Earnings</div>
+</div>
+<ul class="plan-features">
+<li>3% Monthly Returns</li>
+<li>24/7 Mining Operation</li>
+<li>Basic Support</li>
+<li>Instant Withdrawals</li>
+</ul>
+<button class="btn btn-primary" style="width: 100%;" onclick="showDepositModal('basic')">Select Plan</button>
+<div style="text-align: center; margin-top: 15px; font-size: 14px; color: var(--gray);">
+<div>Monthly: 3%</div>
+<div>Early Return: No</div>
+</div>
+</div>
+
+<div class="plan-card popular">
+<div class="plan-header">
+<div class="plan-name">STANDARD</div>
+<div class="plan-amount">$50 - $99</div>
+<div class="plan-daily">0.2% Daily Earnings</div>
+</div>
+<ul class="plan-features">
+<li>6% Monthly Returns</li>
+<li>24/7 Mining Operation</li>
+<li>Priority Support</li>
+<li>Instant Withdrawals</li>
+<li>Referral Bonus 3%</li>
+</ul>
+<button class="btn btn-success" style="width: 100%;" onclick="showDepositModal('standard')">Select Plan</button>
+<div style="text-align: center; margin-top: 15px; font-size: 14px; color: var(--gray);">
+<div>Monthly: 6%</div>
+<div>Early Return: Yes</div>
+</div>
+</div>
+
+<div class="plan-card">
+<div class="plan-header">
+<div class="plan-name">PROFESSIONAL</div>
+<div class="plan-amount">$100 - $999</div>
+<div class="plan-daily">0.35% Daily Earnings</div>
+</div>
+<ul class="plan-features">
+<li>10.5% Monthly Returns</li>
+<li>24/7 Mining Operation</li>
+<li>VIP Support</li>
+<li>Instant Withdrawals</li>
+<li>Referral Bonus 5%</li>
+<li>Profit Booster</li>
+</ul>
+<button class="btn btn-primary" style="width: 100%;" onclick="showDepositModal('professional')">Select Plan</button>
+<div style="text-align: center; margin-top: 15px; font-size: 14px; color: var(--gray);">
+<div>Monthly: 10.5%</div>
+<div>Early Return: Yes</div>
+</div>
+</div>
+
+<div class="plan-card">
+<div class="plan-header">
+<div class="plan-name">ENTERPRISE</div>
+<div class="plan-amount">$1000 - $50000</div>
+<div class="plan-daily">0.5% Daily Earnings</div>
+</div>
+<ul class="plan-features">
+<li>15% Monthly Returns</li>
+<li>24/7 Mining Operation</li>
+<li>Dedicated Manager</li>
+<li>Instant Withdrawals</li>
+<li>Referral Bonus 7%</li>
+<li>Profit Booster</li>
+<li>Early Payout Option</li>
+</ul>
+<button class="btn btn-primary" style="width: 100%;" onclick="showDepositModal('enterprise')">Select Plan</button>
+<div style="text-align: center; margin-top: 15px; font-size: 14px; color: var(--gray);">
+<div>Monthly: 15%</div>
+<div>Early Return: Yes</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="modal" id="depositModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 class="modal-title">Deposit Funds</h2>
+<button class="close-modal" onclick="closeModal('depositModal')">&times;</button>
+</div>
+<div class="currency-tabs">
+<div class="currency-tab active" onclick="showCurrencyTab('inr')">INR</div>
+<div class="currency-tab" onclick="showCurrencyTab('usdt')">USDT</div>
+</div>
+
+<div id="inrDeposit" class="payment-method">
+<h3 style="margin-bottom: 15px;">UPI Payment</h3>
+<p style="margin-bottom: 15px; color: var(--gray);">Send payment to the following UPI ID:</p>
+<div class="payment-info">
+<div class="payment-address">8005982336@fam</div>
+<button class="copy-btn" onclick="copyToClipboard('8005982336@fam')">
+<i class="fas fa-copy"></i> Copy UPI ID
+</button>
+</div>
+<p style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+After payment, please contact support with transaction details.
+</p>
+</div>
+
+<div id="usdtDeposit" class="payment-method" style="display: none;">
+<h3 style="margin-bottom: 15px;">USDT Payment</h3>
+<p style="margin-bottom: 15px; color: var(--gray);">Send USDT to one of the following addresses:</p>
+
+<div style="margin-bottom: 20px;">
+<h4>TRC20 Network</h4>
+<div class="payment-info">
+<div class="payment-address">TN9DDuzXnXirgAAS4mRe8VFQ6VxuVUQmJc</div>
+<button class="copy-btn" onclick="copyToClipboard('TN9DDuzXnXirgAAS4mRe8VFQ6VxuVUQmJc')">
+<i class="fas fa-copy"></i> Copy Address
+</button>
+</div>
+</div>
+
+<div>
+<h4>BSC BNB Smart Chain (BEP20)</h4>
+<div class="payment-info">
+<div class="payment-address">0x8e57d705f1b58ceda77c91df6ac80aac5c2a83df</div>
+<button class="copy-btn" onclick="copyToClipboard('0x8e57d705f1b58ceda77c91df6ac80aac5c2a83df')">
+<i class="fas fa-copy"></i> Copy Address
+</button>
+</div>
+</div>
+
+<p style="margin-top: 15px; font-size: 14px; color: var(--gray);">
+After payment, please contact support with transaction hash.
+</p>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="container">
+<div class="footer-content">
+<div class="footer-column">
+<h3>Captain Mining</h3>
+<p>The future of smart crypto mining. Earn stable returns with our AI-powered platform.</p>
+<div class="social-links">
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-telegram"></i></a>
+</div>
+</div>
+<div class="footer-column">
+<h3>Quick Links</h3>
+<ul>
+<li><a href="#" onclick="showPage('home')">Home</a></li>
+<li><a href="#" onclick="showPage('plans')">Plans</a></li>
+<li><a href="#" onclick="showPage('about')">About</a></li>
+<li><a href="#" onclick="showPage('contact')">Contact</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Services</h3>
+<ul>
+<li><a href="#">Cloud Mining</a></li>
+<li><a href="#">Staking</a></li>
+<li><a href="#">Trading</a></li>
+<li><a href="#">Wallet</a></li>
+<li><a href="#">Referral Program</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Support</h3>
+<ul>
+<li><a href="#">Help Center</a></li>
+<li><a href="#">Contact Us</a></li>
+<li><a href="#">Withdrawal Guide</a></li>
+<li><a href="#">Status</a></li>
+<li><a href="#">Community</a></li>
+</ul>
+</div>
+</div>
+<div class="copyright">
+<p>&copy; 2024 Captain Mining. All rights reserved. | Mining the Future, Rewarding the Present.</p>
+</div>
+</div>
+</footer>
+
+<script>
+function showPage(pageId) {
+document.querySelectorAll('.page').forEach(page => {
+page.classList.remove('active');
+});
+document.getElementById(pageId).classList.add('active');
+}
+
+function showAuthTab(tab) {
+if (tab === 'signup') {
+showPage('signup');
+document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+document.querySelectorAll('.auth-tab')[0].classList.add('active');
+} else {
+showPage('login');
+document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+document.querySelectorAll('.auth-tab')[1].classList.add('active');
+}
+}
+
+function togglePassword(inputId) {
+const input = document.getElementById(inputId);
+const icon = input.nextElementSibling.querySelector('i');
+
+if (input.type === 'password') {
+input.type = 'text';
+icon.classList.remove('fa-eye');
+icon.classList.add('fa-eye-slash');
+} else {
+input.type = 'password';
+icon.classList.remove('fa-eye-slash');
+icon.classList.add('fa-eye');
+}
+}
+
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+e.preventDefault();
+
+const username = document.getElementById('signupUsername').value;
+const email = document.getElementById('signupEmail').value;
+const password = document.getElementById('signupPassword').value;
+const confirmPassword = document.getElementById('confirmPassword').value;
+
+if (password !== confirmPassword) {
+alert('Passwords do not match!');
+return;
+}
+
+localStorage.setItem('user', JSON.stringify({
+username: username,
+email: email,
+password: password
+}));
+
+alert('Account created successfully! Please log in.');
+showAuthTab('login');
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+e.preventDefault();
+
+const loginInput = document.getElementById('loginEmail').value;
+const password = document.getElementById('loginPassword').value;
+
+const user = JSON.parse(localStorage.getItem('user'));
+
+if (user && (
+(loginInput === user.username || loginInput === user.email) && 
+password === user.password
+)) {
+document.getElementById('authButtons').style.display = 'none';
+document.getElementById('userInfo').style.display = 'flex';
+document.getElementById('userAvatar').textContent = user.username.charAt(0).toUpperCase();
+document.getElementById('userName').textContent = user.username;
+
+document.getElementById('dashboardAvatar').textContent = user.username.charAt(0).toUpperCase();
+document.getElementById('dashboardName').textContent = user.username;
+document.getElementById('dashboardEmail').textContent = user.email;
+
+showPage('dashboard');
+} else {
+alert('Invalid login credentials!');
+}
+});
+
+function logout() {
+document.getElementById('authButtons').style.display = 'flex';
+document.getElementById('userInfo').style.display = 'none';
+showPage('home');
+}
+
+function showDepositModal(plan) {
+document.getElementById('depositModal').classList.add('active');
+}
+
+function closeModal(modalId) {
+document.getElementById(modalId).classList.remove('active');
+}
+
+function showCurrencyTab(currency) {
+document.querySelectorAll('.currency-tab').forEach(tab => {
+tab.classList.remove('active');
+});
+
+if (currency === 'inr') {
+document.querySelectorAll('.currency-tab')[0].classList.add('active');
+document.getElementById('inrDeposit').style.display = 'block';
+document.getElementById('usdtDeposit').style.display = 'none';
+} else {
+document.querySelectorAll('.currency-tab')[1].classList.add('active');
+document.getElementById('inrDeposit').style.display = 'none';
+document.getElementById('usdtDeposit').style.display = 'block';
+}
+}
+
+function copyToClipboard(text) {
+navigator.clipboard.writeText(text).then(function() {
+alert('Copied to clipboard: ' + text);
+}, function(err) {
+console.error('Could not copy text: ', err);
+});
+}
+
+function showWithdrawalModal() {
+alert('Withdrawal functionality will be available after your first deposit!');
+}
+</script>
+</body>
+</html>
