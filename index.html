@@ -1530,3 +1530,780 @@ alert('Withdrawal functionality will be available after your first deposit!');
     }
     </script>
 </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Bot - Captain Mining</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-logout {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099ff);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .symbol-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .symbol-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .symbol-btn.active {
+            background: linear-gradient(45deg, #00d4ff, #0099ff);
+            border-color: #00d4ff;
+        }
+
+        /* TradingView Chart */
+        .tradingview-widget-container {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* AI Control Panel */
+        .ai-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .ai-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Trading Signals */
+        .signals-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .signal-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid;
+            transition: transform 0.3s;
+        }
+
+        .signal-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .signal-buy { border-color: #00ff88; background: rgba(0, 255, 136, 0.1); }
+        .signal-sell { border-color: #ff4444; background: rgba(255, 68, 68, 0.1); }
+        .signal-hold { border-color: #ffaa00; background: rgba(255, 170, 0, 0.1); }
+
+        .signal-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Positions Section */
+        .positions-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .position-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .position-profit {
+            font-weight: bold;
+        }
+
+        .profit-positive { color: #00ff88; }
+        .profit-negative { color: #ff4444; }
+
+        /* Performance Stats */
+        .performance-stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 AI Trading Bot - Captain Mining</h1>
+            <div class="user-info">
+                <span>Welcome, <strong>Captain2007</strong></span>
+                <button class="btn btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="dashboard-grid">
+            <!-- Left Column - TradingView Chart -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2>📈 Live Trading Chart</h2>
+                    <div class="symbol-selector" id="symbolSelector">
+                        <!-- Symbols loaded by JavaScript -->
+                    </div>
+                </div>
+                <div class="tradingview-widget-container">
+                    <div id="tradingview_chart"></div>
+                </div>
+            </div>
+
+            <!-- Right Column - AI Controls -->
+            <div class="ai-panel">
+                <div class="ai-status">
+                    <div class="status-indicator"></div>
+                    <div>
+                        <h3>AI Trading Bot</h3>
+                        <p>Status: <span id="aiStatus">Ready to Start</span></p>
+                    </div>
+                </div>
+
+                <div class="ai-controls">
+                    <div class="control-group">
+                        <label class="control-label">🤖 AI Trading Mode</label>
+                        <select id="aiMode" class="symbol-btn" style="width: 100%; padding: 10px;">
+                            <option value="conservative">Conservative (Low Risk)</option>
+                            <option value="moderate" selected>Moderate (Balanced)</option>
+                            <option value="aggressive">Aggressive (High Risk)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">💰 Trade Amount: $<span id="tradeAmountValue">100</span></label>
+                        <div class="slider-container">
+                            <input type="range" id="tradeAmount" class="slider" min="10" max="1000" value="100" step="10">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">🎯 Risk Level: <span id="riskToleranceValue">5</span>/10</label>
+                        <div class="slider-container">
+                            <input type="range" id="riskTolerance" class="slider" min="1" max="10" value="5">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="startAITrading()" id="startBtn">
+                        🚀 Start AI Trading
+                    </button>
+                    <button class="btn btn-danger" onclick="stopAITrading()" id="stopBtn" style="display: none;">
+                        🛑 Stop AI Trading
+                    </button>
+                </div>
+
+                <div class="performance-stats">
+                    <h4>📊 Live Performance</h4>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalProfit" style="color: #00ff88;">+$0.00</div>
+                            <div>Total Profit</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="winRate" style="color: #00d4ff;">0%</div>
+                            <div>Win Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="activeTrades">0</div>
+                            <div>Active Trades</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalTrades">0</div>
+                            <div>Total Trades</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Signals -->
+        <div class="signals-section">
+            <h2>🎯 Live AI Trading Signals</h2>
+            <div class="signal-grid" id="signalGrid">
+                <!-- Signals will appear here -->
+            </div>
+        </div>
+
+        <!-- Active Positions -->
+        <div class="positions-section">
+            <h2>💼 Active Trading Positions</h2>
+            <div id="positionsContainer">
+                <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                    No active positions - Start AI Trading to begin
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TradingView Script -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <script>
+        // 🤖 COMBINED AI TRADING SYSTEM - NO APIs NEEDED
+        class AITradingSystem {
+            constructor() {
+                this.isTrading = false;
+                this.currentSymbol = 'BINANCE:BTCUSDT';
+                this.balance = 10000;
+                this.positions = [];
+                this.performance = {
+                    totalTrades: 0,
+                    winningTrades: 0,
+                    totalProfit: 0,
+                    dailyProfit: 0
+                };
+                
+                this.init();
+            }
+
+            init() {
+                this.initTradingView();
+                this.setupEventListeners();
+                this.loadSymbols();
+                this.startMarketSimulation();
+                this.updateDashboard();
+                
+                console.log("🚀 AI Trading System Started - No APIs Required!");
+            }
+
+            // 📈 TradingView Chart Setup
+            initTradingView() {
+                try {
+                    new TradingView.widget({
+                        container_id: "tradingview_chart",
+                        width: "100%",
+                        height: "100%",
+                        symbol: this.currentSymbol,
+                        interval: "1H",
+                        timezone: "Asia/Kolkata",
+                        theme: "dark",
+                        style: "1",
+                        locale: "in",
+                        enable_publishing: false,
+                        allow_symbol_change: true,
+                        studies: [
+                            "RSI@tv-basicstudies",
+                            "MACD@tv-basicstudies",
+                            "BB@tv-basicstudies",
+                            "Volume@tv-basicstudies"
+                        ],
+                        details: true,
+                        hotlist: true
+                    });
+                } catch (error) {
+                    console.error("Error loading TradingView:", error);
+                }
+            }
+
+            setupEventListeners() {
+                // Trade amount slider
+                document.getElementById('tradeAmount').addEventListener('input', (e) => {
+                    document.getElementById('tradeAmountValue').textContent = e.target.value;
+                });
+
+                // Risk tolerance slider
+                document.getElementById('riskTolerance').addEventListener('input', (e) => {
+                    document.getElementById('riskToleranceValue').textContent = e.target.value;
+                });
+
+                // AI mode selector
+                document.getElementById('aiMode').addEventListener('change', (e) => {
+                    this.updateAIStatus();
+                });
+            }
+
+            loadSymbols() {
+                const symbols = [
+                    { symbol: 'BINANCE:BTCUSDT', name: 'BTC/USDT' },
+                    { symbol: 'BINANCE:ETHUSDT', name: 'ETH/USDT' },
+                    { symbol: 'BINANCE:SOLUSDT', name: 'SOL/USDT' },
+                    { symbol: 'BINANCE:BNBUSDT', name: 'BNB/USDT' },
+                    { symbol: 'BINANCE:XRPUSDT', name: 'XRP/USDT' }
+                ];
+
+                const selector = document.getElementById('symbolSelector');
+                selector.innerHTML = symbols.map(sym => `
+                    <button class="symbol-btn ${sym.symbol === this.currentSymbol ? 'active' : ''}" 
+                            onclick="tradingSystem.setSymbol('${sym.symbol}')">
+                        ${sym.name}
+                    </button>
+                `).join('');
+            }
+
+            setSymbol(symbol) {
+                this.currentSymbol = symbol;
+                document.querySelectorAll('.symbol-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                this.generateSignals();
+            }
+
+            // 🧠 AI Trading Logic
+            startTrading() {
+                this.isTrading = true;
+                this.updateAIStatus();
+                
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'block';
+
+                // Start auto-trading
+                this.tradingInterval = setInterval(() => {
+                    if (this.isTrading) {
+                        this.generateTradingSignal();
+                        this.updatePositions();
+                    }
+                }, 5000);
+
+                console.log("🤖 AI Trading Started!");
+            }
+
+            stopTrading() {
+                this.isTrading = false;
+                this.updateAIStatus();
+                
+                document.getElementById('startBtn').style.display = 'block';
+                document.getElementById('stopBtn').style.display = 'none';
+
+                if (this.tradingInterval) {
+                    clearInterval(this.tradingInterval);
+                }
+
+                console.log("🛑 AI Trading Stopped");
+            }
+
+            generateTradingSignal() {
+                const symbols = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP'];
+                const actions = ['BUY', 'SELL', 'HOLD'];
+                
+                symbols.forEach(symbol => {
+                    if (Math.random() > 0.5) { // 50% chance of signal
+                        const action = actions[Math.floor(Math.random() * actions.length)];
+                        const confidence = Math.floor(Math.random() * 30) + 70;
+                        
+                        if (confidence > 75 && this.isTrading) {
+                            this.executeTrade(symbol, action, confidence);
+                        }
+                    }
+                });
+            }
+
+            executeTrade(symbol, action, confidence) {
+                const tradeAmount = parseInt(document.getElementById('tradeAmount').value);
+                
+                const trade = {
+                    id: Date.now(),
+                    symbol: symbol,
+                    action: action,
+                    amount: tradeAmount,
+                    entryPrice: this.getSimulatedPrice(symbol),
+                    timestamp: new Date().toLocaleTimeString(),
+                    leverage: parseInt(document.getElementById('riskTolerance').value),
+                    status: 'ACTIVE'
+                };
+
+                this.positions.push(trade);
+                this.performance.totalTrades++;
+                
+                // Simulate trade result after delay
+                setTimeout(() => {
+                    this.updateTradeResult(trade);
+                }, 3000 + Math.random() * 7000);
+
+                this.updateDashboard();
+            }
+
+            getSimulatedPrice(symbol) {
+                const prices = {
+                    'BTC': 114000 + Math.random() * 2000,
+                    'ETH': 4100 + Math.random() * 200,
+                    'SOL': 200 + Math.random() * 10,
+                    'BNB': 1130 + Math.random() * 50,
+                    'XRP': 2.6 + Math.random() * 0.2
+                };
+                return Math.floor(prices[symbol] || 100);
+            }
+
+            updateTradeResult(trade) {
+                const profit = (Math.random() - 0
+                                status: 'ACTIVE'
+};
+
+this.positions.push(trade);
+this.performance.totalTrades++;
+
+// Simulate trade result after delay
+setTimeout(() => {
+    this.updateTradeResult(trade);
+}, 3000 + Math.random() * 7000);
+
+this.updateDashboard();
+}
+
+getSimulatedPrice(symbol) {
+const prices = {
+    'BTC': 114000 + Math.random() * 2000,
+    'ETH': 4100 + Math.random() * 200,
+    'SOL': 200 + Math.random() * 10,
+    'BNB': 1130 + Math.random() * 50,
+    'XRP': 2.6 + Math.random() * 0.2
+};
+return Math.floor(prices[symbol] || 100);
+}
+
+updateTradeResult(trade) {
+const profit = (Math.random() - 0.2) * trade.amount * 0.15;
+trade.exitPrice = trade.entryPrice * (1 + profit / trade.amount);
+trade.profit = parseFloat(profit.toFixed(2));
+trade.status = 'CLOSED';
+
+this.performance.totalProfit += trade.profit;
+if (profit > 0) this.performance.winningTrades++;
+
+this.updateDashboard();
+}
+
+// 📊 Dashboard Updates
+updateDashboard() {
+this.generateSignals();
+this.updatePositions();
+this.updatePerformance();
+}
+
+generateSignals() {
+const signals = [
+    { symbol: 'BTC', action: 'BUY', confidence: 85, price: '114,234', change: '+2.3%' },
+    { symbol: 'ETH', action: 'HOLD', confidence: 72, price: '4,119', change: '+1.1%' },
+    { symbol: 'SOL', action: 'BUY', confidence: 91, price: '202.54', change: '+5.7%' },
+    { symbol: 'BNB', action: 'SELL', confidence: 68, price: '1,133', change: '-0.8%' },
+    { symbol: 'XRP', action: 'BUY', confidence: 79, price: '2.64', change: '+3.2%' }
+];
+
+const grid = document.getElementById('signalGrid');
+grid.innerHTML = signals.map(signal => {
+    const actionClass = signal.action === 'BUY' ? 'signal-buy' : 
+                      signal.action === 'SELL' ? 'signal-sell' : 'signal-hold';
+    const icon = signal.action === 'BUY' ? '📈' : 
+                signal.action === 'SELL' ? '📉' : '⚖️';
+
+    return `
+        <div class="signal-card ${actionClass}">
+            <div class="signal-icon">${icon}</div>
+            <h3>${signal.symbol}</h3>
+            <div style="font-size: 1.5rem; font-weight: bold; margin: 10px 0;">
+                ${signal.action}
+            </div>
+            <div>Confidence: ${signal.confidence}%</div>
+            <div>Price: $${signal.price}</div>
+            <div>Change: <span style="color: ${signal.change.includes('+') ? '#00ff88' : '#ff4444'}">
+                ${signal.change}
+            </span></div>
+        </div>
+    `;
+}).join('');
+}
+
+updatePositions() {
+const container = document.getElementById('positionsContainer');
+
+if (this.positions.length === 0) {
+    container.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No active positions</div>';
+    return;
+}
+
+container.innerHTML = this.positions.map(position => {
+    const profitClass = position.profit >= 0 ? 'profit-positive' : 'profit-negative';
+    const profitSign = position.profit >= 0 ? '+' : '';
+    const profitText = position.status === 'ACTIVE' ? 'Calculating...' : `${profitSign}$${position.profit}`;
+
+    return `
+        <div class="position-item">
+            <div>
+                <strong>${position.symbol}</strong> - ${position.action}
+                <div style="font-size: 0.9rem; opacity: 0.8;">
+                    Amount: $${position.amount} | Leverage: ${position.leverage}x
+                    <br>Time: ${position.timestamp}
+                </div>
+            </div>
+            <div class="position-profit ${profitClass}">
+                ${profitText}
+            </div>
+        </div>
+    `;
+}).join('');
+}
+
+updatePerformance() {
+const winRate = this.performance.totalTrades > 0 ? 
+    (this.performance.winningTrades / this.performance.totalTrades * 100).toFixed(1) : 0;
+
+document.getElementById('totalProfit').textContent = 
+    `${this.performance.totalProfit >= 0 ? '+' : ''}$${this.performance.totalProfit.toFixed(2)}`;
+
+document.getElementById('winRate').textContent = `${winRate}%`;
+document.getElementById('activeTrades').textContent = 
+    this.positions.filter(p => p.status === 'ACTIVE').length;
+document.getElementById('totalTrades').textContent = this.performance.totalTrades;
+}
+
+updateAIStatus() {
+const statusElement = document.getElementById('aiStatus');
+const mode = document.getElementById('aiMode').value;
+const modeText = {
+    conservative: 'Conservative Mode',
+    moderate: 'Moderate Mode', 
+    aggressive: 'Aggressive Mode'
+};
+
+const status = this.isTrading ? 
+    `Trading Active - ${modeText[mode]}` : 
+    `Ready - ${modeText[mode]}`;
+
+statusElement.textContent = status;
+}
+
+startMarketSimulation() {
+setInterval(() => {
+    this.updateDashboard();
+}, 3000);
+}
+}
+
+// 🌟 Global Functions
+let tradingSystem;
+
+function initializeSystem() {
+tradingSystem = new AITradingSystem();
+}
+
+function startAITrading() {
+if (tradingSystem) {
+    tradingSystem.startTrading();
+}
+}
+
+function stopAITrading() {
+if (tradingSystem) {
+    tradingSystem.stopTrading();
+}
+}
+
+function logout() {
+if (confirm('Are you sure you want to logout?')) {
+    alert('Logged out successfully!');
+    if (tradingSystem) {
+        tradingSystem.stopTrading();
+    }
+}
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', initializeSystem);
